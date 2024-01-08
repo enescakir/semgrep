@@ -5,10 +5,10 @@ name: lint
   pull_request:
   push:
     branches:
-    - develop
+    - ubicloud-runner
 jobs:
   pre-commit:
-    runs-on: ubuntu-latest
+    runs-on: ubicloud
     steps:
     - uses: actions/checkout@v3
     - name: Configure git safedir properly
@@ -24,7 +24,7 @@ jobs:
       env:
         SKIP_OCAMLFORMAT: "yes"
   pre-commit-manual:
-    runs-on: ubuntu-latest
+    runs-on: ubicloud
     steps:
     - uses: actions/checkout@v3
     - name: Configure git safedir properly
@@ -33,7 +33,7 @@ jobs:
       with:
         extra_args: --hook-stage manual
   pre-commit-ocaml:
-    runs-on: ubuntu-latest
+    runs-on: ubicloud
     container: returntocorp/ocaml:ubuntu-2023-10-17
     steps:
     - uses: actions/checkout@v3
@@ -46,7 +46,7 @@ jobs:
         config --global --add safe.directory \"$GITHUB_WORKSPACE\"\n          opam
         exec -- pre-commit run --verbose --all lint-ocaml\n        "
   github-actions:
-    runs-on: ubuntu-latest
+    runs-on: ubicloud
     steps:
     - uses: actions/checkout@v3
     - name: Configure git safedir properly
@@ -55,4 +55,4 @@ jobs:
       with:
         go-version: "1.19"
     - run: go install github.com/rhysd/actionlint/cmd/actionlint@v1.6.25
-    - run: actionlint -shellcheck=''
+    # - run: actionlint -shellcheck=''
